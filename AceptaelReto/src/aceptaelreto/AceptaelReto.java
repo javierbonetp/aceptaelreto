@@ -26,7 +26,7 @@ public class AceptaelReto {
         
         //System.out.println("Dime cuantas lineas: ");
         casos=Scan.nextInt();
-        
+        Scan.nextLine();
         for(i=0;i<casos;i++){
             //System.out.println("Dime: ");
             texto0 = Scan.nextLine();
