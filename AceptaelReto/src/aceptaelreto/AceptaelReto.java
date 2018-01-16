@@ -36,7 +36,7 @@ public class AceptaelReto {
             if (texto0.equals("Luke") && texto1.equals("padre")){
                 System.out.println("TOP SECRET");
             }else{
-                System.out.println( texto0 + " yo soy tu, " + texto1);
+                System.out.println( texto0 + ", yo soy tu " + texto1);
             }
         }
     }
