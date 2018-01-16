@@ -26,12 +26,12 @@ public class AceptaelReto {
         int lin;
         int i;
         
-        System.out.println("Dime cuantas lineas: ");
+        //System.out.println("Dime cuantas lineas: ");
         lin=sc.nextInt();
         for(i=0;i<lin;i++){
-            System.out.println("Dime: ");
+            //System.out.println("Dime: ");
             texto0=txt0.nextLine();
-            System.out.println("Dime dime: ");
+            //System.out.println("Dime dime: ");
             texto1=txt1.nextLine();
             if (texto0.equals("Luke") && texto1.equals("padre")){
                 System.out.println("TOP SECRET");
