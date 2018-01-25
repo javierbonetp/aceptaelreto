@@ -32,7 +32,7 @@ public class FuerzasImperiales {
         for(int i=Si;i<celda.length;i++){
             for(int j=Sj;j<celda[i].length;j++){
                 if((j+1)<celda[i].length){
-                    if((celda[i][j+1]=='.') && ((j+1)<=celda[0].length)){
+                    if((celda[i][j+1]=='.') && ((j+1)<=celda.length)){
                     Milenario(celda);
                     }
                     if(celda[i][j+1]=='*'){
@@ -50,6 +50,26 @@ public class FuerzasImperiales {
                     return false;
                     }
                     if(celda[i+1][j]=='F'){
+                    return true;
+                    }
+                if((celda[i][j-1]=='.') && ((j-1)>=0)){
+                    Milenario(celda);
+                    }
+                    if(celda[i][j-1]=='*'){
+                    return false;
+                    }
+                    if(celda[i][j-1]=='F'){
+                    return true;
+                    }
+                }
+                if(((i+1)<celda.length) && ((i-1)>=0)){
+                    if(celda[i-1][j]=='.'){
+                    Milenario(celda);
+                    }
+                    if(celda[i-1][j]=='*'){
+                    return false;
+                    }
+                    if(celda[i-1][j]=='F'){
                     return true;
                     }
                 }
