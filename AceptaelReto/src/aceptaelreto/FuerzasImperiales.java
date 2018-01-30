@@ -11,72 +11,25 @@ package aceptaelreto;
  */
 import java.util.Scanner;
 public class FuerzasImperiales {
-    static boolean Milenario(char[][] celda){
-        int Si=0;
-        int Sj=0;
-        int Fi;
-        int Fj;
-        
-        for(int i=0;i<celda.length;i++){
-            for(int j=0;j<celda[i].length;j++){
-                if(celda[i][j]=='S'){
-                    Si=i;
-                    Sj=j;
-                }
-                if(celda[i][j]=='F'){
-                    Fi=i;
-                    Fj=j;
-                }
-            }
+    static boolean Milenario(char[][] celda, int x,int y){
+        if((x<0) || (x>=celda.length) || (y<0) || (y>=celda[0].length)){
+            return false;
         }
-        for(int i=Si;i<celda.length;i++){
-            for(int j=Sj;j<celda[i].length;j++){
-                if((j+1)<celda[i].length){
-                    if((celda[i][j+1]=='.') && ((j+1)<=celda.length)){
-                    Milenario(celda);
-                    }
-                    if(celda[i][j+1]=='*'){
-                    return false;
-                    }
-                    if(celda[i][j+1]=='F'){
-                    return true;
-                    }
-                }
-                if(((i+1)<celda.length) && ((i+1)<=celda.length)){
-                    if(celda[i+1][j]=='.'){
-                    Milenario(celda);
-                    }
-                    if(celda[i+1][j]=='*'){
-                    return false;
-                    }
-                    if(celda[i+1][j]=='F'){
-                    return true;
-                    }
-                if((celda[i][j-1]=='.') && ((j-1)>=0)){
-                    Milenario(celda);
-                    }
-                    if(celda[i][j-1]=='*'){
-                    return false;
-                    }
-                    if(celda[i][j-1]=='F'){
-                    return true;
-                    }
-                }
-                if(((i+1)<celda.length) && ((i-1)>=0)){
-                    if(celda[i-1][j]=='.'){
-                    Milenario(celda);
-                    }
-                    if(celda[i-1][j]=='*'){
-                    return false;
-                    }
-                    if(celda[i-1][j]=='F'){
-                    return true;
-                    }
-                }
+        if((celda[x][y]=='S') || (celda[x][y]=='.')){
+            if((x+1)>=celda.length){
+                Milenario(celda,x,y+1);
+            }else{
+                Milenario(celda,x+1,y);
             }
+            if((y+1)>=celda[0].length){
+                Milenario(celda,x+1,y);
+            }else{
+                Milenario(celda,x,y+1);
+            }
+        }else{
+            return false;
         }
-        //?¿
-        return true;
+        return false;
     }
     static void MostrarMapa(char[][] celda){
         System.out.print("Mapa:\n");
@@ -93,6 +46,8 @@ public class FuerzasImperiales {
         int columnas=0;
         String temporal;
         String FilasColumnas;
+        int Si=0;
+        int Sj=0;
         
         System.out.println("Dime las filas y columnas: ");
         filas=scan.nextInt();
@@ -105,12 +60,15 @@ public class FuerzasImperiales {
             temporal=scan.nextLine();
             for(int j=0;j<columnas;j++){
                 celda[i][j]=temporal.charAt(j);
+                if(celda[i][j]=='S'){
+                    Si=i;
+                    Sj=j;
+                }
             }
         }
         //Muestra el mapa
         //MostrarMapa(celda);
-        if(Milenario(celda)==true){
-            Milenario(celda);
+        if(Milenario(celda, Si,Sj)==true){
             System.out.println("SI");
         }else{
             System.out.println("NO");
