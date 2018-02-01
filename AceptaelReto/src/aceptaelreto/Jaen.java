@@ -19,11 +19,12 @@ public class Jaen {
             return false;
         }
 
-        // Si (x,y) es un espacio vacio, probando caminos
+        // Si (x,y) es un espacio con #, probando caminos
         if (mapa[x][y] == '#') {
 
             // Lo marcamos como asteroide, para que no se vuelva a
             // comprobar por otra funcion recursivas (bucle infinito)
+            //Aumentamos cobtador
             contador++;
             mapa[x][y] = '*';
 
@@ -51,7 +52,6 @@ public class Jaen {
             return false;
         }
 
-        // Si (x,y) es F, camino encontrado!!
         if (mapa[x][y] == '#') {
             return true;
         }
