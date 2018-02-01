@@ -1,79 +1,100 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package aceptaelreto;
 
-/**
- *
- * @author javpin
- */
 import java.util.Scanner;
+
 public class FuerzasImperiales {
-    static boolean Milenario(char[][] celda, int x,int y){
-        if((x<0) || (x>=celda.length) || (y<0) || (y>=celda[0].length)){
+
+    public static int sx, sy;
+
+    // Busca camino
+    public static boolean camino(char mapa[][], int x, int y) {
+
+        // Nº de filas y de columnas
+        int filas = mapa.length;
+        int columnas = mapa[0].length;
+
+        // Si fuera de rango, no hay camino
+        if (x < 0 || y < 0 || x >= filas || y >= columnas) {
             return false;
         }
-        if((celda[x][y]=='S') || (celda[x][y]=='.')){
-            if((x+1)>=celda.length){
-                Milenario(celda,x,y+1);
-            }else{
-                Milenario(celda,x+1,y);
+
+        // Si (x,y) es un espacio vacio, probando caminos
+        if (mapa[x][y] == '.' || mapa[x][y] == 'S') {
+
+            // Lo marcamos como asteroide, para que no se vuelva a
+            // comprobar por otra funcion recursivas (bucle infinito)
+            mapa[x][y] = '*';
+
+            // Probamos Derecha
+            if (camino(mapa, x + 1, y)) {
+                return true;
+            } // Probamos Abajo
+            else if (camino(mapa, x, y + 1)) {
+                return true;
+            } // Probamos Izquierda
+            else if (camino(mapa, x - 1, y)) {
+                return true;
+            } // Probamos Arriba
+            else if (camino(mapa, x, y - 1)) {
+                return true;
+            } // Si no, ningun camino posible
+            else {
+                return false;
             }
-            if((y+1)>=celda[0].length){
-                Milenario(celda,x+1,y);
-            }else{
-                Milenario(celda,x,y+1);
-            }
-        }else{
+        }
+
+        // Si (x,y) es un asteroide: NO hay camino
+        if (mapa[x][y] == '*') {
+            // System.out.println("Encontrado asteroide");
             return false;
         }
+
+        // Si (x,y) es F, camino encontrado!!
+        if (mapa[x][y] == 'F') {
+            return true;
+        }
+
+        // Otro caso no deberia darse nunca, pero por si acaso, return false
         return false;
     }
-    static void MostrarMapa(char[][] celda){
-        System.out.print("Mapa:\n");
-        for(int i=0;i<celda.length;i++){
-            for(int j=0;j<celda[i].length;j++){
-                System.out.print(celda[i][j]);
-            }
-             System.out.print("\n");
-        }
-    }
+
     public static void main(String[] args) {
-        Scanner scan=new Scanner(System.in);
-        int filas=0;
-        int columnas=0;
-        String temporal;
-        String FilasColumnas;
-        int Si=0;
-        int Sj=0;
-        
-        System.out.println("Dime las filas y columnas: ");
-        filas=scan.nextInt();
-        columnas=scan.nextInt();
-        scan.nextLine();
-                
-        char celda [][]= new char [filas][columnas];
-        
-        for(int i=0;i<filas;i++){
-            temporal=scan.nextLine();
-            for(int j=0;j<columnas;j++){
-                celda[i][j]=temporal.charAt(j);
-                if(celda[i][j]=='S'){
-                    Si=i;
-                    Sj=j;
+
+        Scanner scan = new Scanner(System.in);
+
+        // int filas, columnas;
+        char mapa[][] = new char[20][20];
+
+        // Mientras haya casos de prueba
+        while (scan.hasNext()) {
+
+            // Cuantas Filas y Columnas
+            int filas = scan.nextInt();
+            int columnas = scan.nextInt();
+            scan.nextLine();
+
+            // Procesamos las Filas
+            for (int i = 0; i < filas; i++) {
+                String str = scan.nextLine();
+                for (int j = 0; j < columnas; j++) {
+                    char c = str.charAt(j);
+                    mapa[i][j] = c;
+                    if (c == 'S') {
+                        sx = i;
+                        sy = j;
+                    }
                 }
             }
+            
+            // Comprobamos si hay camino desde S hasta F
+            if (camino(mapa, sx, sy)) {
+                System.out.println("SI");
+            } else {
+                System.out.println("NO");
+            }
+
         }
-        //Muestra el mapa
-        //MostrarMapa(celda);
-        if(Milenario(celda, Si,Sj)==true){
-            System.out.println("SI");
-        }else{
-            System.out.println("NO");
-        }
-        
+
     }
-    
+
 }
