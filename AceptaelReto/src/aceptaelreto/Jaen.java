@@ -76,8 +76,6 @@ public class Jaen {
                     }
                 }
             }
-
-            // Buscamos el tamaño de la plantacion en 0,0
             
             System.out.println("Maxima plantacion de: " + tammax);
 
