@@ -1,94 +1,83 @@
 package aceptaelreto;
 
+
 import java.util.Scanner;
 
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+/**
+ *
+ * @author lioalc
+ */
 public class Jaen {
 
-    public static int sx, sy;
-    public static int contador=0;
-
-    // Busca camino
-    public static boolean camino(char mapa[][], int x, int y) {
-
-        // Nº de filas y de columnas
-        int filas = mapa.length;
-        int columnas = mapa[0].length;
-
-        // Si fuera de rango, no hay camino
-        if (x < 0 || y < 0 || x >= filas || y >= columnas) {
-            return false;
+    // FUNCION RECURSIVA: Devuelve tamaño de la plantacion en (x,y)
+    private static int tamPlantacion(char mapa[][], int x, int y) {
+        
+        // Creamos variable para tamaño
+        int tam = 0;
+        
+        // Comprobamos si esta fuera de rango
+        if (x < 0 || y < 0 || x >= mapa.length || y >= mapa[0].length) {
+            return 0;
         }
 
-        // Si (x,y) es un espacio con #, probando caminos
+        // Si espacio vacio, devolvemos tamaño 0
+        if (mapa[x][y] == ' ') {
+            return 0;
+        }
+
+        // Si cultivable, tamaño 1 + comprobamos zonas adyacentes
         if (mapa[x][y] == '#') {
+            
+            // Eliminamos la zona cultivable (x,y) para evitar bucle infinito
+            mapa[x][y] = ' ';
+            
+            // Añadimos 1 (zona cultivable actual)
+            tam++;
 
-            // Lo marcamos como asteroide, para que no se vuelva a
-            // comprobar por otra funcion recursivas (bucle infinito)
-            //Aumentamos cobtador
-            contador++;
-            mapa[x][y] = '*';
+            // Sumamos tamaño plantacion zonas adyacentes
+            tam += tamPlantacion(mapa, x + 1, y);
+            tam += tamPlantacion(mapa, x - 1, y);
+            tam += tamPlantacion(mapa, x, y + 1);
+            tam += tamPlantacion(mapa, x, y - 1);
 
-            // Probamos Derecha
-            if (camino(mapa, x + 1, y)) {
-                return true;
-            } // Probamos Abajo
-            else if (camino(mapa, x, y + 1)) {
-                return true;
-            } // Probamos Izquierda
-            else if (camino(mapa, x - 1, y)) {
-                return true;
-            } // Probamos Arriba
-            else if (camino(mapa, x, y - 1)) {
-                return true;
-            } // Si no, ningun camino posible
-            else {
-                return false;
-            }
+            // Devolvemos el tamaño
+            return tam;
         }
 
-        // Si (x,y) es un asteroide: NO hay camino
-        if (mapa[x][y] == '*') {
-            // System.out.println("Encontrado asteroide");
-            return false;
-        }
+        // Por si el codigo llega aqui (no deberia), devolvemos cero
+        return 0;
 
-        if (mapa[x][y] == '#') {
-            return true;
-        }
-
-        // Otro caso no deberia darse nunca, pero por si acaso, return false
-        return false;
     }
 
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
 
-        // int filas, columnas;
-        char mapa[][] = new char[8][8];
-
-        // Mientras haya casos de prueba
+        // Para cada caso de prueba (mientras haya casos)
         while (scan.hasNext()) {
 
-            // Cuantas Filas y Columnas
             int filas = scan.nextInt();
             int columnas = scan.nextInt();
             scan.nextLine();
 
-            // Procesamos las Filas
+            char mapa[][] = new char[filas][columnas];
+
+            // Leemos el mapa y lo guardamos
             for (int i = 0; i < filas; i++) {
-                String str = scan.nextLine();
-                for (int j = 0; j < columnas; j++) {
-                    char c = str.charAt(j);
-                    mapa[i][j] = c;
-                    if (c == '#') {
-                        sx = i;
-                        sy = j;
-                    }
+                String tmp = scan.nextLine();
+                for (int j = 0; j < tmp.length(); j++) {
+                    mapa[i][j] = tmp.charAt(j);
                 }
             }
-            camino(mapa, sx, sy);
-            System.out.println("Caminos: " + contador);
+
+            // Buscamos el tamaño de la plantacion en 0,0
+            int tam = tamPlantacion(mapa, 0, 0);
+            System.out.println("Maxima plantacion de: " + tam);
 
         }
 
