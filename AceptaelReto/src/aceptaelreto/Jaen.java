@@ -45,14 +45,15 @@ public class Jaen {
     public static void main(String[] args) {
 
         Scanner scan = new Scanner(System.in);
+        
+        //Plantacion maxima
+        int tammax=0;
 
         // Para cada caso de prueba (mientras haya casos)
         while (scan.hasNext()) {
 
             int filas = scan.nextInt();
             int columnas = scan.nextInt();
-            int fbuscada=-1;
-            int cbuscada=-1;
             scan.nextLine();
 
             char mapa[][] = new char[filas][columnas];
@@ -68,17 +69,17 @@ public class Jaen {
             for (int i = 0; i < filas; i++) {
                 for (int j = 0; j < columnas; j++) {
                     if(mapa[i][j]=='#'){
-                        if(fbuscada==-1){
-                            fbuscada=i;
-                            cbuscada=j;
+                        int tam = tamPlantacion(mapa, i, j);
+                        if(tam>tammax){
+                            tammax=tam;
                         }
                     }
                 }
             }
 
             // Buscamos el tamaño de la plantacion en 0,0
-            int tam = tamPlantacion(mapa, fbuscada, cbuscada);
-            System.out.println("Maxima plantacion de: " + tam);
+            
+            System.out.println("Maxima plantacion de: " + tammax);
 
         }
 
